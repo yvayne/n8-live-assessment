@@ -1,5 +1,10 @@
 plugins {
     id 'java'
+    id 'idea'
+    id 'checkstyle'
+    id 'findbugs'
+    id 'pmd'
+    id "io.qameta.allure" version "2.5"
 }
 
 group 'number8.test.project'
@@ -12,5 +17,12 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.0.0'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
+    testCompile group: 'io.cucumber', name: 'cucumber-java', version: '2.4.0'
+    testCompile group: 'io.cucumber', name: 'cucumber-picocontainer', version: '2.4.0'
+    testCompile group: 'io.cucumber', name: 'cucumber-testng', version: '2.4.0'
+    testCompile group: 'io.qameta.allure', name: 'allure-cucumber2-jvm', version: '2.7.0'
+    testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 }
