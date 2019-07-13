@@ -17,12 +17,79 @@ repositories {
 }
 
 dependencies {
-    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.0.0'
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.6.1'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
     testCompile group: 'io.cucumber', name: 'cucumber-java', version: '2.4.0'
     testCompile group: 'io.cucumber', name: 'cucumber-picocontainer', version: '2.4.0'
     testCompile group: 'io.cucumber', name: 'cucumber-testng', version: '2.4.0'
-    testCompile group: 'io.qameta.allure', name: 'allure-cucumber2-jvm', version: '2.7.0'
+    testCompile group: 'io.qameta.allure', name: 'allure-cucumber2-jvm', version: '2.12.1'
     testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+}
+
+checkstyle {
+    toolVersion = '8.11'
+    configFile = file("${rootProject.rootDir}/config/checkstyle/checkstyle.xml")
+}
+
+allure {
+    version = '2.7.0'
+    resultsDir = file("${rootProject.rootDir}/build/allure-results")
+    reportDir = file("${rootProject.rootDir}/build/allure-report")
+}
+
+findbugs {
+    toolVersion = '3.0.1'
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+pmd {
+    toolVersion = '6.0.0'
+}
+
+tasks.withType(Pmd) {
+    ruleSets = ["java-basic", "java-braces", "java-unnecessary", "java-unusedcode", "java-strictexception"]
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+task executeFeatures(type: Test) {
+    outputs.upToDateWhen { false }
+    doFirst {
+        useTestNG()
+        options {
+            useDefaultListeners = false
+            jvmArgs = ['-Dcucumber.options= ' +
+                               '--glue poc.pivotal.bdd ' +
+                               '--plugin pretty ' +
+                               '--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm ' +
+                               '--plugin rerun:build/rerun.txt ' + cucumberOptions]
+            jvmArgs = ['-Dusername=' + username]
+            jvmArgs = ['-Dpassword=' + password]
+            jvmArgs = ['-Dtoken=' + token]
+            jvmArgs = ['-Dbrowser=' + browser]
+            jvmArgs = ['-DbaseUrl=' + baseUrl]
+            jvmArgs = ['-DapiBaseUrl=' + apiBaseUrl]
+            jvmArgs = ['-DimplicitTimeWait=' + implicitTimeWait]
+            jvmArgs = ['-DexplicitTimeWait=' + explicitTimeWait]
+            jvmArgs = ['-Duser.timezone=GMT']
+        }
+        testLogging.showStandardStreams = true
+        scanForTestClasses = false
+        ignoreFailures = false
+        reports.html.enabled = false
+    }
+    finalizedBy 'allureReport'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.10.2'
 }
