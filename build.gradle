@@ -68,7 +68,7 @@ task executeFeatures(type: Test) {
         options {
             useDefaultListeners = false
             jvmArgs = ['-Dcucumber.options= ' +
-                               '--glue poc.pivotal.bdd ' +
+                               '--glue com.n8 ' +
                                '--plugin pretty ' +
                                '--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm ' +
                                '--plugin rerun:build/rerun.txt ' + cucumberOptions]

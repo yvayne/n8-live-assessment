@@ -18,4 +18,13 @@ public class BasePage {
         webDriver = DriverManager.getInstance().getWebDriver();
         PageFactory.initElements(webDriver, this);
     }
+
+    /**
+     * Gets the page title.
+     *
+     * @return page title.
+     */
+    public String getTitle() {
+        return DriverManager.getInstance().getWebDriver().getTitle();
+    }
 }

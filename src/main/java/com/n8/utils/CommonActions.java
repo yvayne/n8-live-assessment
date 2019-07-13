@@ -136,4 +136,14 @@ public final class CommonActions {
         Alert alert = DriverManager.getInstance().getWebDriver().switchTo().alert();
         alert.accept();
     }
+
+    /**
+     * Gets the content type on web element.
+     *
+     * @param webElement web element.
+     * @return content typed on web element.
+     */
+    public static String getContent(final WebElement webElement) {
+        return webElement.getAttribute("value");
+    }
 }

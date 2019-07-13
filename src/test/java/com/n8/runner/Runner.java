@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeTest;
 @CucumberOptions(
         plugin = {"pretty"},
         features = {"src/test/resources/features/"},
-        tags = {""},
+        tags = {"@yvr"},
         glue = {"com.n8"})
 public class Runner extends AbstractTestNGCucumberTests {
 
